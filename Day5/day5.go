@@ -47,9 +47,9 @@ func main() {
 	}
 
 	coordMap := make(map[Coord]int)
+	part2CoordMap := make(map[Coord]int)
 
 	for _, c := range coordList {
-
 		if (c.point1.x == c.point2.x) {
 
 			lowY := int(math.Min(float64(c.point1.y), float64(c.point2.y)))
@@ -57,6 +57,7 @@ func main() {
 
 			for i := lowY; i <= highY; i++ {
 				coordMap[Coord{x: c.point1.x, y: i}] = coordMap[Coord{x: c.point1.x, y: i}] + 1
+				part2CoordMap[Coord{x: c.point1.x, y: i}] = part2CoordMap[Coord{x: c.point1.x, y: i}] + 1
 			}
 
 		} else if (c.point1.y == c.point2.y) {
@@ -66,20 +67,64 @@ func main() {
 
 			for i := lowX; i <= highX; i++ {
 				coordMap[Coord{x: i, y: c.point1.y}] = coordMap[Coord{x: i, y: c.point1.y}] + 1
+				part2CoordMap[Coord{x: i, y: c.point1.y}] = part2CoordMap[Coord{x: i, y: c.point1.y}] + 1
+			}
+
+		} else {
+			
+			if c.point1.x < c.point2.x {
+
+				step := 0
+
+				if c.point1.y - c.point2.y > 0 {
+					step = -1
+				} else {
+					step = 1
+				}
+
+				counter := c.point1.y
+				for i := c.point1.x; i <= c.point2.x; i++ {
+					part2CoordMap[Coord{x: i, y: counter}] = part2CoordMap[Coord{x: i, y: counter}] + 1
+					counter += step
+				}
+			} else {
+
+				step := 0
+
+				if c.point2.y - c.point1.y > 0 {
+					step = -1
+				} else {
+					step = 1
+				}
+
+				counter := c.point2.y
+				for i := c.point2.x; i <= c.point1.x; i++ {
+					part2CoordMap[Coord{x: i, y: counter}] = part2CoordMap[Coord{x: i, y: counter}] + 1
+					counter += step
+				}
 			}
 
 		}
 	}
 
 	part1 := 0
+	part2 := 0
+
 	for _, value := range coordMap {
 		if value > 1 {
 			part1++
 		}
 	}
 
+	for _, value := range part2CoordMap {
+		if value > 1 {
+			part2++
+		}
+	}
+
 	elapsed := time.Since(start)
 	fmt.Printf("Time taken: %v \n", elapsed)
 	fmt.Printf("Part 1: %v \n", part1)
+	fmt.Printf("Part 2: %v \n", part2)
 
 }
