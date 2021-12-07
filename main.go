@@ -8,11 +8,6 @@ import (
 	"johncosta.tech/AdventOfCode2021/day6"
 )
 
-type Answer struct {
-	part1 int
-	part2 int
-}
-
 func main() {
 
 	fmt.Println("---------------------------------------")
