@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"math"
+	"sort"
 	"strconv"
 	"strings"
 	"time"
@@ -24,10 +25,14 @@ func main() {
 		crabList[i] = num
 	}
 
+	sort.Ints(crabList)
+
+	median := crabList[len(crabList) / 2]
+
 	lowest := 100000000000
 	part2lowest := 10000000000000
 
-	for i := 0; i <= 2000; i++ {
+	for i := median - 200; i <= median + 200; i++ {
 
 		difference := 0
 		part2difference := 0
